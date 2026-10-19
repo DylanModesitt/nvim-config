@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# scripts/send HOST: put this configuration on another machine, over ssh, and
+# set it up there (scripts/install).
+#
+# It sends what's committed, with git: HOST's ~/.config/nvim is a clone of
+# this repository, and each send moves it forward. If it was changed there,
+# the send stops rather than overwrite anything: commit it there and pull it
+# here (git pull HOST:.config/nvim), then send again.
+
+set -euo pipefail
+
+host=${1:?usage: scripts/send HOST}
+here=$(cd "$(dirname "$0")/.." && pwd)
+branch=$(git -C "$here" branch --show-current)
+[ -z "$(git -C "$here" status --porcelain)" ] || echo 'Uncommitted changes stay here: only commits are sent.'
+
+# A repository there that takes pushes into its working tree, if that's clean.
+ssh "$host" bash -s -- "$branch" <<'EOF'
+set -e
+dir=$HOME/.config/nvim
+if [ -e "$dir" ] && [ ! -d "$dir/.git" ]; then
+  echo "$dir is another configuration: move it aside, then send again." >&2
+  exit 1
+fi
+[ -d "$dir" ] || git init -q -b "$1" "$dir"
+git -C "$dir" config receive.denyCurrentBranch updateInstead
+EOF
+
+git -C "$here" push "$host:.config/nvim" "$branch"
+ssh -t "$host" '$HOME/.config/nvim/scripts/install'
