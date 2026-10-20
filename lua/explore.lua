@@ -39,7 +39,8 @@ local function file()
   local name = vim.api.nvim_buf_get_name(0)
   local obj = require('git.object').parse(name)
   if obj then return vim.fs.joinpath(obj.root, obj.path) end
-  if vim.bo.buftype == '' and name ~= '' then return name end
+  -- (an image's buffer is 'nofile': it holds the picture, not the file's bytes)
+  if (vim.bo.buftype == '' or vim.bo.filetype == 'image') and name ~= '' then return name end
 end
 
 vim.keymap.set('n', '<leader>e', function()
