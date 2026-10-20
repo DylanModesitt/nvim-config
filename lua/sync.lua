@@ -106,9 +106,14 @@ api.nvim_create_autocmd('FileChangedShell', {
       vim.notify(name .. ' changed on disk while you had unsaved changes. Autosave is paused '
         .. 'for it: :e! loads the version on disk, :w asks before overwriting it.', vim.log.levels.WARN)
     elseif reason == 'deleted' then
+      -- Nvim reports a deleted file at every check until it's back, so say it
+      -- once, and only if unsaved edits are at stake. Otherwise (an agent
+      -- deleting or moving a file) the statusline's [deleted] is enough.
+      if vim.bo[ev.buf].modified and vim.b[ev.buf].conflict ~= 'deleted' then
+        vim.notify(name .. ' was deleted on disk while you had unsaved changes. Autosave is paused '
+          .. 'for it: :w writes it back.', vim.log.levels.WARN)
+      end
       vim.b[ev.buf].conflict = 'deleted'
-      vim.notify(name .. ' was deleted on disk. Autosave is paused for it: :w writes it back.',
-        vim.log.levels.WARN)
     end
     vim.schedule(function() vim.cmd.redrawstatus({ bang = true }) end) -- show/clear the marker
   end,

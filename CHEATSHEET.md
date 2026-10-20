@@ -42,6 +42,9 @@ file changed on disk while you had unsaved edits, the statusline says
 - `:e!` takes the version on disk;
 - `:w` asks before overwriting it.
 
+A file deleted on disk says `[deleted]` (and warns, if you had unsaved edits);
+`:w` writes it back.
+
 ## Editing
 
 | Keys | Does |
