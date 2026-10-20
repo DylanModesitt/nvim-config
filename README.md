@@ -64,7 +64,8 @@ init.lua            options, keymaps, autocmds; the table of contents
 scripts/            install: set up a machine; send: to another, over ssh;
                     ghostty-theme.lua: a Ghostty theme from a colorscheme
 lsp/*.lua           one file per language server
-after/ftplugin/     per-language settings (Python's wrap width)
+after/ftplugin/     per-language settings (Python's wrap width; Markdown and
+                    text wrap on screen)
 lua/
   find.lua          :find (fuzzy), :Recent, :Grep, on the native command line
   explore.lua       directories (netrw): <leader>e, <leader>E

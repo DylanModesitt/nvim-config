@@ -15,7 +15,7 @@
 --   lua/review/         review comments, viewed marks, export (see review/init.lua)
 --   lua/github/         pull requests: :PR views, threads, reviews (see github/init.lua)
 --   lsp/*.lua           one file per language server (Python, TypeScript, Rust, Lua)
---   after/ftplugin/     per-language settings (e.g. python: wrap width)
+--   after/ftplugin/     per-language settings (python: wrap width; markdown, text: wrap)
 --
 -- Plugins are managed by the built-in vim.pack and pinned in
 -- nvim-pack-lock.json. :lua vim.pack.update() to update them.
@@ -113,6 +113,11 @@ vim.cmd.colorscheme('retrobox')
 local map = vim.keymap.set
 
 map('n', '<Esc>', '<Cmd>nohlsearch<CR>')
+
+-- Where lines wrap (Markdown, text), j/k move a line on screen. With a count
+-- they move real lines, as the relative numbers count.
+map({ 'n', 'x' }, 'j', function() return vim.v.count == 0 and 'gj' or 'j' end, { expr = true })
+map({ 'n', 'x' }, 'k', function() return vim.v.count == 0 and 'gk' or 'k' end, { expr = true })
 
 map('n', '<C-h>', '<C-w>h')
 map('n', '<C-j>', '<C-w>j')

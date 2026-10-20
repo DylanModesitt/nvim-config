@@ -50,11 +50,17 @@ file changed on disk while you had unsaved edits, the statusline says
 | `*` then `cgn`, `.` | change matches one at a time |
 | `gq{motion}` / `gqq` | rewrap comments and docstrings to the wrap width (`gqq`: the whole paragraph) |
 | `gw{motion}` | Vim's own rewrap, ignoring language servers |
+| `j` / `k` | down/up a line on screen, where lines wrap (Markdown, text); with a count (`5j`), real lines |
+| `gO` | in Markdown: an outline of the headings (`SPC q` closes) |
+| `]]` `[[` | in Markdown: next/previous section |
 | `gcc` / `gc{motion}` | comment / uncomment |
 | `van` / `vin` | select the syntax node around the cursor; repeat `an`/`in` to grow/shrink |
 | `u` / `Ctrl-r` | undo / redo |
 | `SPC u` | undo tree: move in it to move through the file's history (`q` closes) |
 | `zc` `zo` `za` `zM` `zR` | fold: close, open, toggle, all closed, all open |
+
+Markdown and text files wrap long lines on screen. Markdown hides its markup
+(`**`, backticks, a link's URL, code fences) except on the cursor's line.
 
 ## Code
 
