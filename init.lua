@@ -98,12 +98,12 @@ vim.keymap.set('c', '<Up>', function() return vim.fn.wildmenumode() == 1 and '<C
 vim.keymap.set('c', '<Down>', function() return vim.fn.wildmenumode() == 1 and '<C-e><Down>' or '<Down>' end, { expr = true })
 
 -- Theme -----------------------------------------------------------------------
--- retrobox: Vim's own retro scheme (gruvbox's colors), dark or light as the
--- terminal is. Ghostty's theme is made from it (scripts/ghostty-theme.lua).
+-- lunaperche: one of Vim's own schemes, white or black as the terminal is.
+-- Ghostty's theme is made from it (scripts/ghostty-theme.lua).
 -- To change themes: the name here, and the theme line in
 -- ~/.config/ghostty/config.
 
-vim.cmd.colorscheme('retrobox')
+vim.cmd.colorscheme('lunaperche')
 
 -- Keymaps ---------------------------------------------------------------------
 -- Neovim's own defaults cover a lot already: ]q [q ]b [b ]d [d (unimpaired-

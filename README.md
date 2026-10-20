@@ -24,7 +24,7 @@ the prompt.
 **Plugins only where they are the best version of a thing.** There are two:
 gitsigns (the gutter, hunks, blame) and nvim-treesitter (installing parsers and
 their queries; Neovim ships only a few). Each is pinned to a major version in
-`nvim-pack-lock.json`. The colors are Vim's own (retrobox).
+`nvim-pack-lock.json`. The colors are Vim's own (lunaperche).
 
 **Custom code where it is the work itself.** Reviewing what changed is the
 center of the day, so the git views, review comments and GitHub integration
@@ -225,11 +225,11 @@ macOS, Homebrew.
 ## Outside this repo
 
 - **Ghostty:** `~/.config/ghostty/config` has
-  `theme = light:retrobox-light,dark:retrobox-dark`. Both themes are generated
-  from Neovim's retrobox (in `~/.config/ghostty/themes/`, by
+  `theme = light:lunaperche-light,dark:lunaperche-dark`. Both themes are
+  generated from Neovim's lunaperche (in `~/.config/ghostty/themes/`, by
   `scripts/ghostty-theme.lua`). Ghostty follows macOS (`appearance` toggles
   it), and Neovim follows Ghostty: Ghostty tells it when its theme changes,
-  Neovim sets `'background'`, and retrobox switches.
+  Neovim sets `'background'`, and lunaperche switches.
 - **Homebrew:** neovim, lua-language-server, rust-analyzer, typescript (7, for
   its native `tsc --lsp`), ripgrep, gh, tree-sitter (CLI, to build parsers),
   difftastic, git-delta.

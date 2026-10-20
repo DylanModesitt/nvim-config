@@ -226,8 +226,8 @@ Over SSH:
 
 ## Theme
 
-retrobox, Vim's own retro scheme (gruvbox's colors), light or dark with
-macOS: `appearance` switches Ghostty and Neovim together.
+lunaperche, one of Vim's own schemes: white when macOS is light, black when
+it's dark. `appearance` switches Ghostty and Neovim together.
 - **Force one in Neovim:** `:set background=light` or `:set background=dark`.
 - **Try another scheme:** `:colorscheme wildcharm` (or any in
   `:colorscheme <Tab>`).
