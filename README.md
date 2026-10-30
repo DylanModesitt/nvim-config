@@ -76,6 +76,7 @@ lua/
   wrap.lua          gq rewraps comments and docstrings, leaves code alone
   image.lua         image files show as the image (in Ghostty, over SSH too)
   project.lua       each project's own tools
+  rewrite.lua       <leader>K: rewrite the selection as you describe it
   task.lua          waiting on commands without freezing the editor
   git/              diff views, history, git:// buffers, gutter, checkouts
   review/           comments and threads on code, viewed marks, export
@@ -129,6 +130,7 @@ Each directory's `init.lua` explains its commands and its files.
   - thread sources (`review.add_source`);
   - the comment float (`review.compose.float`).
 - Nothing outside `github/` requires it, apart from `init.lua` loading it.
+- `rewrite` takes its instruction in the comment float too.
 - Review stores are files that another Neovim may also write. Code that
   changes one gets it (`store.get`) at that moment and finds comments by id,
   rather than holding on to it.
@@ -235,6 +237,7 @@ macOS, Homebrew.
   difftastic, git-delta.
 - **uv tools:** ty and ruff, global fallbacks for projects whose `.venv`
   doesn't pin them.
+- **Claude Code** (`claude`, signed in): `SPC K` runs it headless.
 - **State:** review comments live in `~/.local/state/nvim/review/*.json`.
 
 ## Not yet

@@ -50,6 +50,7 @@ A file deleted on disk says `[deleted]` (and warns, if you had unsaved edits);
 | Keys | Does |
 |---|---|
 | `SPC L` | change every occurrence of the word (or selection): `:%s`, previewed live |
+| `SPC K` | rewrite the selection (or this line) as you describe it, in a float |
 | `*` then `cgn`, `.` | change matches one at a time |
 | `gq{motion}` / `gqq` | rewrap comments and docstrings to the wrap width (`gqq`: the whole paragraph) |
 | `gw{motion}` | Vim's own rewrap, ignoring language servers |
@@ -64,6 +65,14 @@ A file deleted on disk says `[deleted]` (and warns, if you had unsaved edits);
 
 Markdown and text files wrap long lines on screen. Markdown hides its markup
 (`**`, backticks, a link's URL, code fences) except on the cursor's line.
+
+`SPC K` sends the text, and the file around it, to Claude Code (`claude -p`,
+Sonnet, no tools). In its float, write what you want ("a list, not a
+table"): `Enter` sends it (`Ctrl-j` starts a new line), `ZQ` closes. The new
+text takes the selection's place as one change: `u` undoes it, `gv` selects
+it to go on. Ask a question instead and the answer opens in a float (`q`
+closes). Edit the text while it's dimmed, being rewritten, and it's left as
+you made it.
 
 ## Code
 

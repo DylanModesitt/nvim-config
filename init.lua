@@ -10,6 +10,7 @@
 --   lua/wrap.lua        gq rewraps comments/docstrings, leaves code to the LSP
 --   lua/image.lua       image files show as the image (Ghostty, kitty)
 --   lua/project.lua     each project's own tools (.venv, node_modules)
+--   lua/rewrite.lua     <leader>K: rewrite the selection as you describe (claude -p)
 --   lua/task.lua        waiting on git/gh without freezing the editor
 --   lua/git/            git: :Diff/:Show/:Log views, gutter signs (see git/init.lua)
 --   lua/review/         review comments, viewed marks, export (see review/init.lua)
@@ -199,6 +200,7 @@ require('sync')
 require('code')
 require('wrap')
 require('image')
+require('rewrite')
 require('git')
 require('git.signs')
 require('review')
