@@ -228,7 +228,7 @@ there. Running `:PR` again in its view reloads it.
 From `~/.config/nvim`, `scripts/send HOST` sends your committed config to HOST
 over ssh and sets the machine up (Neovim too). Run it again after changes.
 
-Over SSH:
+Over SSH, or in a Rex host's terminal:
 - `y` copies to your computer's clipboard, and `p` puts the last yank.
 - Cmd-V pastes from your computer.
 - Opening a link (`gx`, `o` on a pull request) copies it.

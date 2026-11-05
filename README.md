@@ -214,9 +214,9 @@ macOS, Homebrew.
   takes pushes into its working tree only while it's clean, so nothing
   changed there is overwritten. Commit it there, `git pull HOST:.config/nvim`
   here, and send again.
-- **Clipboard over SSH:** yanks reach your own computer's clipboard through
-  the terminal (OSC 52), and opening a link copies it. Inside tmux on the
-  host, that needs `set -g set-clipboard on`.
+- **Clipboard over SSH or in a Rex host:** yanks reach your own computer's
+  clipboard through the terminal (OSC 52), and opening a link copies it.
+  Inside tmux on the host, that needs `set -g set-clipboard on`.
 - **Linux file watching** doesn't see subdirectories. With inotify-tools
   (`sudo apt install inotify-tools`), diff views stay live. Without it, they
   catch up when you come back to them. Buffers reload live either way.
