@@ -2,6 +2,7 @@
 --
 --   init.lua            options, keymaps, autocmds
 --   lua/clipboard.lua   y copies to the computer you're at (over SSH, in Rex)
+--   lua/rex.lua         what Rex says about its terminal: where you're using it
 --   lua/find.lua        fuzzy :find, :Recent, :Grep on the native command line
 --   lua/explore.lua     directories (netrw): <leader>e, <leader>E
 --   lua/tabs.lua        tab labels and numbers, <leader><Tab> keys

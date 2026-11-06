@@ -78,6 +78,7 @@ lua/
   image.lua         image files show as the image (in Ghostty, over SSH too)
   project.lua       each project's own tools
   rewrite.lua       <leader>K: rewrite the selection as you describe it
+  rex.lua           what Rex says about its terminal: where you're using it
   task.lua          waiting on commands without freezing the editor
   git/              diff views, history, git:// buffers, gutter, checkouts
   review/           comments and threads on code, viewed marks, export
