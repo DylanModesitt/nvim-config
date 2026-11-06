@@ -10,7 +10,7 @@
 --   lua/sync.lua        files <-> buffers: reload on change, autosave at rest
 --   lua/code.lua        treesitter, LSP, completion, diagnostics
 --   lua/wrap.lua        gq rewraps comments/docstrings, leaves code to the LSP
---   lua/image.lua       image files show as the image (Ghostty, kitty)
+--   lua/image.lua       image files show as the image (Ghostty, kitty, Rex)
 --   lua/project.lua     each project's own tools (.venv, node_modules)
 --   lua/rewrite.lua     <leader>K: rewrite the selection as you describe (claude -p)
 --   lua/task.lua        waiting on git/gh without freezing the editor

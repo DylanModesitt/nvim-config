@@ -1,8 +1,8 @@
 -- image.lua: image files open as the image, in a terminal that can draw it
--- (Ghostty, kitty), and over SSH too. A PNG is drawn as it is; a JPEG, GIF or
--- WebP is converted to PNG first (sips on macOS, ImageMagick elsewhere).
--- Where it can't be drawn, the buffer says what the file is (:Open % opens it
--- in your system's viewer).
+-- (Ghostty, kitty, Rex), and over SSH too. A PNG is drawn as it is; a JPEG,
+-- GIF or WebP is converted to PNG first (sips on macOS, ImageMagick
+-- elsewhere). Where it can't be drawn, the buffer says what the file is
+-- (:Open % opens it in your system's viewer).
 --
 -- How (as snacks.nvim draws images): the file goes to the terminal once, by
 -- the kitty graphics protocol. The buffer is then a grid of placeholder
@@ -48,11 +48,13 @@ local ns = api.nvim_create_namespace('image')
 -- Ids from a range of this Neovim's own, so two in one terminal don't collide.
 local last_id = bit.lshift(bit.band(vim.fn.getpid(), 0x3ff), 14)
 
----Whether the terminal can draw images. Ghostty's and kitty's can, and their
----TERM comes along over SSH; ids need 24-bit color.
-local function drawable()
-  return vim.o.termguicolors and (vim.env.TERM == 'xterm-ghostty' or vim.env.TERM == 'xterm-kitty')
-end
+-- The terminal speaks the graphics protocol: it answered the query sent when
+-- Neovim starts (below). Asking works over SSH, and whatever TERM says.
+local speaks = false
+
+---Whether the terminal can draw images: it speaks the protocol, and has
+---24-bit color (ids are colors).
+local function drawable() return speaks and vim.o.termguicolors end
 
 ---Send the terminal a graphics command, with its replies turned off.
 ---@param keys table<string, string|integer>
@@ -193,7 +195,7 @@ local function read(buf)
   if not vim.uv.fs_stat(path) then
     table.insert(lines, 'No such file.')
   else
-    table.insert(lines, width and "This terminal can't draw images (Ghostty and kitty can)."
+    table.insert(lines, width and "This terminal can't draw images (Ghostty, kitty and Rex can)."
       or "Couldn't read it as an image (formats other than PNG need sips or ImageMagick).")
     table.insert(lines, ":Open % opens it in your system's viewer.")
   end
@@ -231,22 +233,34 @@ api.nvim_create_autocmd('BufWinEnter', {
   end,
 })
 
--- Neovim turns 'termguicolors' on once it has started, after reading the
--- files it was started with (`nvim plot.png`), or later still when the
--- terminal says it has 24-bit color. Images read before then are read again.
-api.nvim_create_autocmd('OptionSet', {
-  group = group,
-  pattern = 'termguicolors',
-  callback = function()
-    if not drawable() then return end
-    for _, buf in ipairs(api.nvim_list_bufs()) do
-      if api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == 'image' and not images[buf] then
-        read(buf)
-        if images[buf] then show(buf) end
-      end
+-- The terminal's answers come after Neovim has started, and after it has read
+-- the files it was started with (`nvim plot.png`): whether it speaks the
+-- protocol, and whether it has 24-bit color (Neovim then turns 'termguicolors'
+-- on). Images read before then are read again.
+local function retry()
+  if not drawable() then return end
+  for _, buf in ipairs(api.nvim_list_bufs()) do
+    if api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == 'image' and not images[buf] then
+      read(buf)
+      if images[buf] then show(buf) end
     end
+  end
+end
+
+api.nvim_create_autocmd('OptionSet', { group = group, pattern = 'termguicolors', callback = retry })
+
+-- A terminal that speaks the protocol answers this query (a 1×1 image, not
+-- kept) with OK; one that doesn't ignores it.
+api.nvim_create_autocmd('TermResponse', {
+  group = group,
+  callback = function(ev)
+    if not ev.data.sequence:find('^\027_Gi=31;OK') then return end
+    speaks = true
+    retry()
+    return true -- (asked once: done)
   end,
 })
+api.nvim_ui_send('\027_Gi=31,s=1,v=1,a=q,t=d,f=24;AAAA\027\\')
 
 api.nvim_create_autocmd('WinResized', {
   group = group,

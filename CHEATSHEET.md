@@ -32,7 +32,8 @@ Directories open in netrw, Vim's own browser (`F1` lists every key):
 | `Ctrl-r` | refresh (going into a directory re-reads it anyway) |
 
 Images (PNG; JPEG, GIF and WebP too, where `sips` or ImageMagick can convert
-them) open as the picture, fitted to the window, in Ghostty and over SSH.
+them) open as the picture, fitted to the window, in Ghostty or Rex, and over
+SSH.
 `:Open %` opens one in your system's viewer.
 
 Saving is automatic: on leaving insert mode, after changes, on switching

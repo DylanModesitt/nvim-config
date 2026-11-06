@@ -75,7 +75,7 @@ lua/
   sync.lua          reload on change, autosave at rest, conflict guard
   code.lua          treesitter, LSP, completion, diagnostics, formatting
   wrap.lua          gq rewraps comments and docstrings, leaves code alone
-  image.lua         image files show as the image (in Ghostty, over SSH too)
+  image.lua         image files show as the image (Ghostty, Rex, over SSH too)
   project.lua       each project's own tools
   rewrite.lua       <leader>K: rewrite the selection as you describe it
   rex.lua           what Rex says about its terminal: where you're using it
