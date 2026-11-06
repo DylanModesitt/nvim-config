@@ -12,12 +12,14 @@ local task = require('task')
 
 local M = {}
 
+local mac = vim.fn.has('mac') == 1
+
 ---Neovim is in a Rex terminal.
 M.terminal = vim.env.REX_BLOCK ~= nil
 
----The app you're using this terminal from is on another computer. False until
----Rex says so (and outside Rex).
-M.remote = M.terminal and vim.fn.has('mac') == 0
+---The app you're using this terminal from is on another computer: always on
+---a host that isn't a Mac; on a Mac, once Rex says so. False outside Rex.
+M.remote = M.terminal and not mac
 
 ---Run a rex command, in a task, and decode its JSON; nil if it failed.
 ---@param ... string
@@ -40,7 +42,7 @@ local function locate()
   end)
 end
 
-if M.terminal and vim.fn.has('mac') == 1 and vim.fn.executable('rex') == 1 then
+if M.terminal and mac and vim.fn.executable('rex') == 1 then
   locate()
   vim.api.nvim_create_autocmd('FocusGained', {
     group = vim.api.nvim_create_augroup('rex', {}),
