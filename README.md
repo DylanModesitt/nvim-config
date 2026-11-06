@@ -67,6 +67,7 @@ lsp/*.lua           one file per language server
 after/ftplugin/     per-language settings (Python's wrap width; Markdown and
                     text wrap on screen)
 lua/
+  clipboard.lua     y copies to the computer you're at, over SSH or in Rex
   find.lua          :find (fuzzy), :Recent, :Grep, on the native command line
   explore.lua       directories (netrw): <leader>e, <leader>E
   tabs.lua          tab labels and numbers, <leader><Tab> keys
@@ -216,7 +217,8 @@ macOS, Homebrew.
   here, and send again.
 - **Clipboard over SSH or in a Rex host:** yanks reach your own computer's
   clipboard through the terminal (OSC 52), and opening a link copies it.
-  Inside tmux on the host, that needs `set -g set-clipboard on`.
+  Inside tmux on the host, that needs `set -g set-clipboard on`. In Rex on a
+  Mac, Rex says whether the app you're using is on that Mac or elsewhere.
 - **Linux file watching** doesn't see subdirectories. With inotify-tools
   (`sudo apt install inotify-tools`), diff views stay live. Without it, they
   catch up when you come back to them. Buffers reload live either way.

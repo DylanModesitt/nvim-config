@@ -1,6 +1,7 @@
 -- init.lua: the whole editor, top to bottom.
 --
 --   init.lua            options, keymaps, autocmds
+--   lua/clipboard.lua   y copies to the computer you're at (over SSH, in Rex)
 --   lua/find.lua        fuzzy :find, :Recent, :Grep on the native command line
 --   lua/explore.lua     directories (netrw): <leader>e, <leader>E
 --   lua/tabs.lua        tab labels and numbers, <leader><Tab> keys
@@ -61,28 +62,8 @@ o.diffopt = o.diffopt:gsub('inline:%a+', 'inline:word') .. ',algorithm:histogram
 o.confirm = true
 o.undofile = true
 o.updatetime = 250
-o.clipboard = 'unnamedplus'
-
--- On another machine, the clipboard is your own computer's: yanks reach it
--- through the terminal (OSC 52). That's over SSH, or in a Rex host's terminal,
--- which the Rex server starts without SSH_TTY (Rex's app runs only on macOS,
--- so a Rex terminal anywhere else is a host's). Reading it back would have
--- the terminal ask each time, so p puts the last yank (Cmd-V pastes from your
--- computer). Links you open (gx, a pull request's o) are copied, to open there.
-if vim.env.SSH_TTY or (vim.env.REX_SESSION and vim.fn.has('mac') == 0) then
-  local osc52 = require('vim.ui.clipboard.osc52')
-  local function last() return { vim.fn.getreg('', 1, true), vim.fn.getregtype('') } end
-  vim.g.clipboard = {
-    name = 'OSC 52',
-    copy = { ['+'] = osc52.copy('+'), ['*'] = osc52.copy('*') },
-    paste = { ['+'] = last, ['*'] = last },
-  }
-  ---@diagnostic disable-next-line: duplicate-set-field
-  vim.ui.open = function(url)
-    vim.fn.setreg('+', url)
-    vim.notify('Copied ' .. url)
-  end
-end
+o.clipboard = 'unnamedplus' -- the computer you're at, wherever this runs: lua/clipboard.lua
+require('clipboard')
 
 -- Ghostty tab title: the project/worktree directory name.
 o.title = true
