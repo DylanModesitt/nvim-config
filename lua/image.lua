@@ -213,15 +213,38 @@ api.nvim_create_autocmd('BufReadCmd', {
   end,
 })
 
+---Draw `buf`'s image in the windows showing it, with nothing beside or over it.
+local function show(buf)
+  for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+    local wo = vim.wo[win][0]
+    wo.number, wo.relativenumber, wo.signcolumn, wo.foldcolumn, wo.statuscolumn = false, false, 'no', '0', ''
+    wo.list, wo.wrap, wo.cursorline, wo.cursorcolumn, wo.spell, wo.colorcolumn = false, false, false, false, false, ''
+  end
+  images[buf].drawn = nil
+  render(buf)
+end
+
 api.nvim_create_autocmd('BufWinEnter', {
   group = group,
   callback = function(ev)
-    if not images[ev.buf] then return end
-    local wo = vim.wo[0][0]
-    wo.number, wo.relativenumber, wo.signcolumn, wo.foldcolumn, wo.statuscolumn = false, false, 'no', '0', ''
-    wo.list, wo.wrap, wo.cursorline, wo.cursorcolumn, wo.spell, wo.colorcolumn = false, false, false, false, false, ''
-    images[ev.buf].drawn = nil
-    render(ev.buf)
+    if images[ev.buf] then show(ev.buf) end
+  end,
+})
+
+-- Neovim turns 'termguicolors' on once it has started, after reading the
+-- files it was started with (`nvim plot.png`), or later still when the
+-- terminal says it has 24-bit color. Images read before then are read again.
+api.nvim_create_autocmd('OptionSet', {
+  group = group,
+  pattern = 'termguicolors',
+  callback = function()
+    if not drawable() then return end
+    for _, buf in ipairs(api.nvim_list_bufs()) do
+      if api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == 'image' and not images[buf] then
+        read(buf)
+        if images[buf] then show(buf) end
+      end
+    end
   end,
 })
 
